@@ -119,8 +119,29 @@ st.markdown(
     .dark-theme .interest-copy,
     .dark-theme .detail-copy,
     .dark-theme .content-card p,
-    .dark-theme .footer {
+    .dark-theme .footer,
+    .dark-theme .music-caption,
+    .dark-theme .music-artist {
         color: #b6c2d8;
+    }
+    .dark-theme .music-card {
+        border-color: rgba(214,225,255,.22);
+        background: linear-gradient(145deg, rgba(35,47,74,.86), rgba(25,34,56,.76));
+        color: #edf3ff;
+    }
+    .dark-theme .music-heading,
+    .dark-theme .music-track-title {
+        color: #f4f7ff;
+    }
+    .dark-theme .music-kicker,
+    .dark-theme .music-caption,
+    .dark-theme .music-artist,
+    .dark-theme .music-album {
+        color: #c4cde0;
+    }
+    .dark-theme .music-player-shell {
+        border-color: rgba(222,231,255,.18);
+        background: rgba(12,19,34,.48);
     }
     .dark-theme .speech-bubble {
         background: #263650;
@@ -294,6 +315,129 @@ st.markdown(
         color: #62708a;
         line-height: 1.65;
     }
+    .music-card {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,.72);
+        border-radius: 30px;
+        background: linear-gradient(145deg, rgba(255,255,255,.72), rgba(244,239,255,.56));
+        -webkit-backdrop-filter: blur(28px) saturate(175%);
+        backdrop-filter: blur(28px) saturate(175%);
+        box-shadow: 0 28px 70px rgba(70, 72, 125, .17),
+                    inset 0 1px 0 rgba(255,255,255,.8);
+        color: #23304a;
+        transition: transform .35s ease, box-shadow .35s ease;
+    }
+    .music-card::before {
+        position: absolute;
+        z-index: 0;
+        inset: 0;
+        background:
+            radial-gradient(ellipse at 8% 10%, rgba(255,190,211,.5), transparent 37%),
+            radial-gradient(ellipse at 96% 28%, rgba(147,171,241,.38), transparent 42%),
+            radial-gradient(ellipse at 44% 100%, rgba(244,208,184,.3), transparent 48%);
+        content: "";
+        pointer-events: none;
+    }
+    .music-card::after {
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        right: 12%;
+        left: 12%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,.95), transparent);
+        content: "";
+        pointer-events: none;
+    }
+    .music-card:hover {
+        box-shadow: 0 34px 78px rgba(70, 72, 125, .23),
+                    inset 0 1px 0 rgba(255,255,255,.86);
+        transform: translateY(-4px);
+    }
+    .music-inner {
+        position: relative;
+        z-index: 1;
+        padding: 20px 16px 16px;
+    }
+    .music-kicker {
+        margin: 0 0 4px;
+        color: #77819a;
+        font-size: .67rem;
+        font-weight: 800;
+        letter-spacing: .17em;
+        text-align: center;
+        text-transform: uppercase;
+    }
+    .music-heading {
+        margin: 0;
+        color: #202b45;
+        font-size: clamp(1.45rem, 2.2vw, 1.85rem);
+        font-weight: 820;
+        letter-spacing: -.055em;
+        text-align: center;
+    }
+    .music-caption {
+        margin: 4px 0 17px;
+        color: #69758e;
+        font-size: .84rem;
+        line-height: 1.5;
+        text-align: center;
+    }
+    .music-player-shell {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        box-sizing: border-box;
+        margin-bottom: 16px;
+        padding: 5px;
+        border: 1px solid rgba(255,255,255,.72);
+        border-radius: 20px;
+        background: rgba(255,255,255,.4);
+        box-shadow: 0 8px 24px rgba(39, 48, 82, .1),
+                    inset 0 1px 0 rgba(255,255,255,.72);
+        -webkit-backdrop-filter: blur(18px) saturate(150%);
+        backdrop-filter: blur(18px) saturate(150%);
+        animation: artwork-float 6.5s ease-in-out infinite;
+        transition: box-shadow .35s ease, transform .35s ease;
+    }
+    .music-card:hover .music-player-shell {
+        box-shadow: 0 14px 34px rgba(39, 48, 82, .18),
+                    inset 0 1px 0 rgba(255,255,255,.82);
+        transform: translateY(-2px);
+    }
+    .music-player-shell iframe {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        border-radius: 15px;
+    }
+    .music-meta {
+        margin: 0 0 14px;
+        text-align: center;
+    }
+    .music-track-title {
+        margin: 0;
+        color: #202b45;
+        font-size: 1.34rem;
+        font-weight: 850;
+        letter-spacing: -.04em;
+    }
+    .music-artist {
+        margin: 3px 0 0;
+        color: #46536c;
+        font-size: .91rem;
+        font-weight: 730;
+    }
+    .music-album {
+        margin: 2px 0 0;
+        color: #77819a;
+        font-size: .77rem;
+        font-weight: 550;
+    }
     .project-note {
         padding: 22px;
         border-radius: 18px;
@@ -338,12 +482,17 @@ st.markdown(
         0%, 100% { transform: translateY(0) rotate(-3deg); }
         50% { transform: translateY(-6px) rotate(3deg); }
     }
+    @keyframes artwork-float {
+        0%, 100% { transform: translateY(0) rotate(-.6deg); }
+        50% { transform: translateY(-7px) rotate(.6deg); }
+    }
     @media (max-width: 640px) {
         .block-container { padding: 1.4rem .8rem 1.5rem; }
         .hero { border-radius: 22px; }
         .hero-photo { width: min(70vw, 240px); }
         .welcome-card { align-items: flex-start; gap: 12px; padding: 16px; }
         .assistant-avatar { width: 48px; height: 48px; flex-basis: 48px; }
+        .music-card { max-width: 440px; margin: 0 auto; }
     }
     @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after {
@@ -380,9 +529,26 @@ if theme_choice:
             background: rgba(22,34,56,.94) !important;
             color: #edf3ff !important;
         }
+        .music-card {
+            border-color: rgba(214,225,255,.22) !important;
+            background: linear-gradient(145deg, rgba(35,47,74,.86), rgba(25,34,56,.76)) !important;
+            color: #edf3ff !important;
+        }
+        .music-card::before {
+            background:
+                radial-gradient(ellipse at 8% 10%, rgba(171,133,190,.25), transparent 37%),
+                radial-gradient(ellipse at 96% 28%, rgba(105,137,204,.24), transparent 42%),
+                radial-gradient(ellipse at 44% 100%, rgba(180,137,139,.18), transparent 48%) !important;
+        }
         .section-heading, .interest-title, .detail-copy,
-        .interest-copy, .content-card p, .footer {
+        .interest-copy, .content-card p, .footer,
+        .music-kicker, .music-caption, .music-artist, .music-album {
             color: #b6c2d8 !important;
+        }
+        .music-heading, .music-track-title { color: #f4f7ff !important; }
+        .music-player-shell {
+            border-color: rgba(222,231,255,.18) !important;
+            background: rgba(12,19,34,.48) !important;
         }
         .speech-bubble { background: #263650 !important; color: #edf3ff !important; }
         .project-note { background: #20324f !important; color: #ced9ed !important; }
@@ -430,7 +596,11 @@ with clock_right:
     )
 
 photo_src = f"data:image/jpeg;base64,{photo_data}"
-left, right = st.columns([0.85, 1.5], gap="large", vertical_alignment="center")
+left, right, music_column = st.columns(
+    [0.85, 1.5, 1.05],
+    gap="large",
+    vertical_alignment="center",
+)
 
 with left:
     st.markdown(
@@ -452,6 +622,36 @@ with right:
             <p class="hero-intro">{html.escape(introduction)}
             I’m glad you’re here. Take a look around and get to know me.</p>
         </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+with music_column:
+    st.markdown(
+        """
+        <section class="music-card" aria-label="My Soundtrack music player">
+          <div class="music-inner">
+            <header class="music-header">
+              <p class="music-kicker">A little corner of my world</p>
+              <h2 class="music-heading">My Soundtrack</h2>
+              <p class="music-caption">A little piece of my world, on repeat.</p>
+            </header>
+            <div class="music-player-shell">
+              <iframe
+                  src="https://www.youtube-nocookie.com/embed/OiwtQDRpl7U?autoplay=1&amp;controls=1&amp;playsinline=1&amp;rel=0"
+                  title="LANY - XXL (Official Music Video)"
+                  allow="autoplay; encrypted-media; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen
+              ></iframe>
+            </div>
+            <div class="music-meta">
+              <h3 class="music-track-title">XXL</h3>
+              <p class="music-artist">LANY</p>
+              <p class="music-album">a beautiful blur</p>
+            </div>
+          </div>
+        </section>
         """,
         unsafe_allow_html=True,
     )
